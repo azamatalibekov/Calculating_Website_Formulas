@@ -1,0 +1,50 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+formula = 0
+radius = 0
+height = 0
+edge = 0
+
+
+@app.route('/')
+def index():
+    return render_template('main')
+
+
+@app.route('/sphere')
+def first():
+    global formula
+    global radius
+    if 'Radius' in request.args:
+        radius = request.args['Radius']
+    formula = 1.3 * 3.14159265359 * int(radius) ** 3
+    return render_template('sphere.html', formula=formula)
+
+
+@app.route('/cube')
+def second():
+    global formula
+    global radius
+    global edge
+    if 'Edge' in request.args:
+        edge = request.args['Edge']
+    formula = int(edge)**3
+    return render_template('cube.html', formula = formula)
+
+
+@app.route('/cylinder')
+def third():
+    global height
+    global formula
+    global radius
+    if 'Radius' in request.args:
+        radius = request.args['Radius']
+    if 'Height' in request.args:
+        height = request.args['Height']
+    formula = 3.14159265359 * int(radius) ** 2 * int(height)
+    return render_template('cylinder.html', formula=formula)
+
+
+app.run(debug=True, port=8090)
